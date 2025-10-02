@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Model;
+use App\Http\Controllers\Controller;
 
 abstract class BaseController extends Controller
 {
@@ -13,9 +14,12 @@ abstract class BaseController extends Controller
     {
         $filters = $request->all();
 
-        $query = $this->model::query()->filter($filters);
+        $query = $this->model::query();
 
-        // Sorting
+        if (method_exists($this->model, 'scopeFilter')) {
+            $query->filter($filters);
+        }
+
         if ($request->has('sort_by')) {
             $sortBy = $request->get('sort_by');
             $sortDir = $request->get('sort_dir', 'asc');
@@ -37,5 +41,21 @@ abstract class BaseController extends Controller
     {
         $data = $this->model::create($request->all());
         return response()->json($data, 201);
+    }
+
+    public function update(Request $request, $id)
+    {
+        $data = $this->model::findOrFail($id);
+        $data->update($request->all());
+
+        return response()->json($data);
+    }
+
+    public function destroy($id)
+    {
+        $data = $this->model::findOrFail($id);
+        $data->delete();
+
+        return response()->json(null, 204);
     }
 }
