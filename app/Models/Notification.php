@@ -5,12 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
-class Article extends Model
+class Notification extends Model
 {
     protected $primaryKey = 'id';
     public $incrementing = false;
     protected $keyType = 'string';
-    protected $fillable = ['module_id', 'title', 'content'];
+    protected $fillable = ['type', 'content', 'user_id', 'admin_id', 'sent_at'];
 
     protected static function boot()
     {
@@ -20,8 +20,13 @@ class Article extends Model
         });
     }
 
-    public function module()
+    public function client()
     {
-        return $this->belongsTo(Module::class, 'module_id');
+        return $this->belongsTo(Client::class, 'client_id');
+    }
+
+    public function admin()
+    {
+        return $this->belongsTo(Admin::class, 'admin_id');
     }
 }

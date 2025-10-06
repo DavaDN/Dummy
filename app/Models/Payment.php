@@ -5,12 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
-class Article extends Model
+class Payment extends Model
 {
     protected $primaryKey = 'id';
     public $incrementing = false;
     protected $keyType = 'string';
-    protected $fillable = ['module_id', 'title', 'content'];
+    protected $fillable = ['invoice_id', 'proof_upload', 'amount_paid', 'paid_at'];
 
     protected static function boot()
     {
@@ -20,8 +20,8 @@ class Article extends Model
         });
     }
 
-    public function module()
+    public function invoice()
     {
-        return $this->belongsTo(Module::class, 'module_id');
+        return $this->belongsTo(Invoice::class, 'invoice_id');
     }
 }

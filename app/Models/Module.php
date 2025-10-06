@@ -5,12 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
-class Article extends Model
+class Module extends Model
 {
     protected $primaryKey = 'id';
     public $incrementing = false;
     protected $keyType = 'string';
-    protected $fillable = ['module_id', 'title', 'content'];
+    protected $fillable = ['name', 'description'];
 
     protected static function boot()
     {
@@ -20,8 +20,13 @@ class Article extends Model
         });
     }
 
-    public function module()
+    public function projects()
     {
-        return $this->belongsTo(Module::class, 'module_id');
+        return $this->belongsToMany(Project::class, 'project_modules', 'id', 'project_id');
+    }
+
+    public function articles()
+    {
+        return $this->hasMany(Article::class, 'id');
     }
 }

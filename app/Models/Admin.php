@@ -5,12 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
-class Article extends Model
+class Admin extends Model
 {
     protected $primaryKey = 'id';
     public $incrementing = false;
     protected $keyType = 'string';
-    protected $fillable = ['module_id', 'title', 'content'];
+    protected $fillable = ['email', 'password', 'reset_token'];
 
     protected static function boot()
     {
@@ -20,8 +20,13 @@ class Article extends Model
         });
     }
 
-    public function module()
+    public function approvedTickets()
     {
-        return $this->belongsTo(Module::class, 'module_id');
+        return $this->hasMany(Ticket::class, 'approved_by');
+    }
+
+    public function approvedInvoices()
+    {
+        return $this->hasMany(Invoice::class, 'approved_by');
     }
 }

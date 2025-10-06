@@ -5,12 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
-class Article extends Model
+class Log extends Model
 {
     protected $primaryKey = 'id';
     public $incrementing = false;
     protected $keyType = 'string';
-    protected $fillable = ['module_id', 'title', 'content'];
+    protected $fillable = ['user_id', 'action', 'target_table', 'target_id'];
 
     protected static function boot()
     {
@@ -20,8 +20,8 @@ class Article extends Model
         });
     }
 
-    public function module()
+    public function client()
     {
-        return $this->belongsTo(Module::class, 'module_id');
+        return $this->belongsTo(Client::class, 'user_id');
     }
 }
