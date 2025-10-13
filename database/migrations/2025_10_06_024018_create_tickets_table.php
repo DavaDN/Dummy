@@ -12,7 +12,7 @@ return new class extends Migration {
             $table->uuid('id')->primary();
             $table->string('title', 200);
             $table->text('description');
-            $table->enum('status', ['pending', 'approved', 'completed'])->default('pending');
+            $table->enum('status', ['pending', 'approved','reject', 'completed'])->default('pending');
             $table->enum('type', ['call', 'chat', 'meet_offline', 'meet_online']);
             $table->foreignUuid('client_id')->nullable()->constrained('clients')->onDelete('set null');
             $table->foreignUuid('approved_by')->nullable()->constrained('admins')->onDelete('set null');

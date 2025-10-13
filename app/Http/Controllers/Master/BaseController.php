@@ -68,7 +68,7 @@ class BaseController extends Controller
     {
         $modelInstance = new $this->model;
 
-        // Validasi required berdasarkan $fillable
+        // Validasi required berdasarkan fillable di model
         $validator = Validator::make($request->all(), $this->getValidationRules());
         if ($validator->fails()) {
             return $this->sendError('Validation Error', $validator->errors(), 422);
